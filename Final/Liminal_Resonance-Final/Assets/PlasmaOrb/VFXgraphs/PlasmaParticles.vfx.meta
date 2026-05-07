@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 721e566e20f7c884d95811f7e18cfc8f
+VisualEffectImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 187426
+  packageName: Magical Plasma Orb Shader & VFX Graphs
+  packageVersion: 1.0
+  assetPath: Assets/Binary Lunar/PlasmaOrb/VFXgraphs/PlasmaParticles.vfx
+  uploadId: 412435
