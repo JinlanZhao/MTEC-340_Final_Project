@@ -34,6 +34,11 @@ public class SequentialAudioPlayer : MonoBehaviour
         hasLeft = false;
         lastTriggered = membraneID;
         OrbController.RegisterTrigger();
+
+        if (currentIndex == 3)
+        {
+            SequentialBackgroundMusic.TriggerFadeIn();
+        }
     }
 
     void OnTriggerExit(Collider other)

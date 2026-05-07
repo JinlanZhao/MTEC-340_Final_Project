@@ -18,8 +18,13 @@ public class OrbController : MonoBehaviour
     [Header("Steps")]
     public int totalSteps = 10;
 
+    [Header("Explosion Audio")]
+    public AudioClip explosionClip;
+    [Range(0f, 1f)] public float explosionVolume = 1f;
+
     private static OrbController instance;
     private Material mat;
+    private AudioSource cachedAudioSource;
     private Vector3 originPos;
     private int currentStep = 0;
     private bool hasExploded = false;
@@ -32,6 +37,7 @@ public class OrbController : MonoBehaviour
     void Start()
     {
         mat = GetComponent<Renderer>().material;
+        cachedAudioSource = GetComponent<AudioSource>();
         originPos = transform.position;
         UpdateOrb();
     }
@@ -56,7 +62,7 @@ public class OrbController : MonoBehaviour
 
         float scale = Mathf.Lerp(minScale, maxScale, t);
         transform.localScale = Vector3.one * scale;
-        
+
         mat.SetFloat("_EmissionIntensity", Mathf.Lerp(2.0f, 8.0f, t));
         mat.SetFloat("_OrbAlpha", Mathf.Lerp(minAlpha, maxAlpha, t));
 
@@ -82,10 +88,26 @@ public class OrbController : MonoBehaviour
 
         transform.position = originPos;
         GetComponentInChildren<ParticleSystem>().Play();
+        PlayExplosionSound();
         yield return new WaitForSeconds(0.4f);
         foreach (var renderer in GetComponentsInChildren<MeshRenderer>())
         {
             renderer.enabled = false;
         }
+
+        PauseMenu.TriggerLightFadeIn();
+    }
+
+    void PlayExplosionSound()
+    {
+        if (explosionClip == null) return;
+
+        if (cachedAudioSource != null)
+        {
+            cachedAudioSource.PlayOneShot(explosionClip, explosionVolume);
+            return;
+        }
+
+        AudioSource.PlayClipAtPoint(explosionClip, transform.position, explosionVolume);
     }
 }
